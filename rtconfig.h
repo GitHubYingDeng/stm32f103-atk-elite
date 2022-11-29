@@ -183,9 +183,6 @@
 
 /* sensors drivers */
 
-#define PKG_USING_MPU6XXX
-#define PKG_USING_MPU6XXX_V001
-#define PKG_USING_MPU6XXX_SAMPLE
 
 /* touch drivers */
 
