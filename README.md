@@ -1,39 +1,127 @@
-# stm32f103-atk-Elite
+# STM32F103 精英开发板 BSP 说明
 
-#### 介绍
-{**以下是 Gitee 平台说明，您可以替换此简介**
-Gitee 是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用 Gitee 实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+## 简介
 
-#### 软件架构
-软件架构说明
+本文档为DengYing为正点原子 STM32F103 开发板提供的 BSP (板级支持包) 说明。
+
+主要内容如下：
+
+- 开发板资源介绍
+- BSP 快速上手
+- 进阶使用方法
+
+通过阅读快速上手章节开发者可以快速地上手该 BSP，将 RT-Thread 运行在开发板上。在进阶使用指南章节，将会介绍更多高级功能，帮助开发者利用 RT-Thread 驱动更多板载资源。
+
+## 开发板介绍
+
+精英 STM32F103 是正点原子推出的一款基于 ARM Cortex-M3 内核的开发板，最高主频为 72Mhz，该开发板具有丰富的板载资源，可以充分发挥 STM32F103 的芯片性能。
+
+开发板外观如下图所示：
+
+![board](figures/board.png)
+
+该开发板常用 **板载资源** 如下：
+
+- MCU：STM32F103ZET6，主频 72MHz，512KB FLASH ，64KB RAM
+- 外部 FLASH：W25Q128（SPI2，16MB）
+- 常用外设
+  - LED：2个普通LED，DS0（红色，PB5），DS1（红色，PE5）
+  - 按键：3个，WKUP（兼具唤醒功能，PA0），K0（PE4）、K1（PE3）
+- 常用接口：USB 转串口、SD 卡接口、LCD 接口
+- 调试接口，标准 JTAG/SWD
+
+开发板更多详细信息请参考野火 [STM32 精英开发板介绍](https://detail.tmall.com/item.htm?spm=a230r.1.14.22.5e266a94PjMqe6&id=609294889447&ns=1&abbucket=3)。
+
+## 外设支持
+
+本 BSP 目前对外设的支持情况如下：
+
+| **板载外设** | **支持情况** | **备注**                              |
+| :------------ | :----------: | :------------------------------------- |
+| USB 转串口   |     支持     | 使用 UART1                            |
+| RS232        |     支持     | 使用 UART2                            |
+| SPI Flash    |     支持     | W25Q128                                |
+| 电位器       |     支持     | 使用 ADC1                              |
+| SD卡         |     支持     |                                       |
+| CAN          |     支持     |                                       |
+| SDRAM        |   即将支持   |                                       |
+| WIFI ESP8266 |   即将支持   |                                       |
+| **片上外设** | **支持情况** | **备注**                              |
+| GPIO         |     支持     | PA0, PA1... PK15 ---> PIN: 0, 1...176 |
+| UART         |     支持     | UART1/2/3                             |
+| SPI          |     支持     | SPI1/2/3                              |
+| I2C          |     支持     | 软件 I2C                              |
+| ADC          |     支持     |                                      |
+| RTC          |     支持     | 支持外部晶振和内部低速时钟 |
+| WDT          |     支持     |                                       |
+| FLASH | 支持 | 已适配 [FAL](https://github.com/RT-Thread-packages/fal) |
+| SDIO         |     支持     |                                      |
+| PWM          |     支持     |                                      |
+| USB Device   |     支持     |                                      |
+| USB Host     |   暂不支持   | 即将支持                              |
+| **扩展模块** | **支持情况** | **备注**                              |
+| 暂无         |   暂不支持   | 暂不支持                              |
+
+## 使用说明
+
+使用说明分为如下两个章节：
+
+- 快速上手
+
+    本章节是为刚接触 RT-Thread 的新手准备的使用说明，遵循简单的步骤即可将 RT-Thread 操作系统运行在该开发板上，看到实验效果 。
+
+- 进阶使用
+
+    本章节是为需要在 RT-Thread 操作系统上使用更多开发板资源的开发者准备的。通过使用 ENV 工具对 BSP 进行配置，可以开启更多板载资源，实现更多高级功能。
 
 
-#### 安装教程
+### 快速上手
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+本 BSP 为开发者提供 MDK4、MDK5 和 IAR 工程，并且支持 GCC 开发环境。下面以 MDK5 开发环境为例，介绍如何将系统运行起来。
 
-#### 使用说明
+#### 硬件连接
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+使用数据线连接开发板到 PC，打开电源开关。
 
-#### 参与贡献
+#### 编译下载
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+双击 project.uvprojx 文件，打开 MDK5 工程，编译并下载程序到开发板。
 
+> 工程默认配置使用 JLink 下载程序，在通过 JLink 连接开发板的基础上，点击下载按钮即可下载程序到开发板
 
-#### 特技
+#### 运行结果
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+下载程序成功之后，系统会自动运行，观察开发板上 LED 的运行效果，其中一个 LED 会周期性闪烁。
+
+连接开发板对应串口到 PC , 在终端工具里打开相应的串口（115200-8-1-N），复位设备后，可以看到 RT-Thread 的输出信息:
+
+```bash
+ \ | /
+- RT -     Thread Operating System
+ / | \     3.1.5 build Nov 29 2022
+2006 - 2020 Copyright by rt-thread team
+msh >
+```
+### 进阶使用
+
+此 BSP 默认只开启了 GPIO 和 串口1 的功能，如果需使用 SD 卡、Flash 等更多高级功能，需要利用 ENV 工具对BSP 进行配置，步骤如下：
+
+1. 在 bsp 下打开 env 工具。
+
+2. 输入`menuconfig`命令配置工程，配置好之后保存退出。
+
+3. 输入`pkgs --update`命令更新软件包。
+
+4. 输入`scons --target=mdk4/mdk5/iar` 命令重新生成工程。
+
+本章节更多详细的介绍请参考 [STM32 系列 BSP 外设驱动使用教程](../docs/STM32系列BSP外设驱动使用教程.md)。
+
+## 注意事项
+
+暂无
+
+## 联系人信息
+
+维护人:
+
+- [DengYing](https://gitee.com/YingDengGitee/stm32f103-atk-elite) 
