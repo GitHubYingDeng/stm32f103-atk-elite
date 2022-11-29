@@ -63,7 +63,15 @@
 | 暂无               |      暂不支持      | 暂不支持                                            |
 
 ## 使用说明
-
+### 注意 由于RTThread3.5.1未增加f103系列使用fsmc的驱动需要修改SConscript文件,具体目录为:
+```
+  rt-thread\bsp\stm32\libraries\STM32F1xx_HAL\SConscript
+```
+#### 添加如下代码即可编译时自动添加到工程
+```
+if GetDepend(['BSP_USING_SRAM']):
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_ll_fsmc.c']
+```
 使用说明分为如下两个章节：
 
 - 快速上手
